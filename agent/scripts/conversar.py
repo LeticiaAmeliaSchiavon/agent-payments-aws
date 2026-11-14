@@ -3,11 +3,33 @@
 Faz o mesmo que a Lambda do chat fará: a cada turno manda o histórico COMPLETO
 (incluindo chamadas de ferramenta e resultados) e guarda as mensagens novas devolvidas.
 
-Uso:  uv run python scripts/conversar.py [--usuario local-1]
+A conversa inteira também é gravada num arquivo de texto (o caminho aparece ao iniciar),
+para você poder consultá-la depois, mesmo que feche o terminal.
+
+Uso:  uv run python scripts/conversar.py [--usuario local-1] [--saida conversa.txt]
 """
 import argparse
 import json
+import tempfile
 import urllib.request
+from datetime import datetime
+from pathlib import Path
+
+
+class Registro:
+    """Mostra no terminal e, ao mesmo tempo, grava num arquivo."""
+
+    def __init__(self, caminho=None):
+        self.caminho = Path(caminho) if caminho else None
+
+    def gravar(self, texto):
+        if self.caminho:
+            with open(self.caminho, "a", encoding="utf-8") as arquivo:
+                arquivo.write(texto)
+
+    def __call__(self, texto="", fim="\n"):
+        print(texto, end=fim, flush=True)
+        self.gravar(texto + fim)
 
 
 def eventos_sse(linhas):
@@ -33,23 +55,24 @@ def resumo_das_ferramentas(mensagens):
     return saida
 
 
-def turno(url, usuario_id, prompt, historico):
+def turno(url, usuario_id, prompt, historico, mostrar=None):
+    mostrar = mostrar or Registro()
     corpo = json.dumps({"usuario_id": usuario_id, "prompt": prompt, "historico": historico}).encode("utf-8")
     pedido = urllib.request.Request(url, data=corpo, headers={"Content-Type": "application/json"})
     novas = None
-    print("Agente: ", end="", flush=True)
+    mostrar("Agente: ", fim="")
     with urllib.request.urlopen(pedido, timeout=180) as resposta:
         for evento in eventos_sse(resposta):
             if evento["evento"] == "texto":
-                print(evento["texto"], end="", flush=True)
+                mostrar(evento["texto"], fim="")
             elif evento["evento"] == "erro":
-                print(f"\n[erro] {evento['mensagem']}")
+                mostrar(f"\n[erro] {evento['mensagem']}")
                 return None
             elif evento["evento"] == "fim":
                 novas = evento["mensagens"]
-    print()
+    mostrar()
     for linha in resumo_das_ferramentas(novas or []):
-        print(linha)
+        mostrar(linha)
     return novas
 
 
@@ -57,10 +80,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--usuario", default="local-1", help="usuario_id usado na conversa (cada um tem o próprio limite)")
     parser.add_argument("--url", default="http://localhost:8080/invocations")
+    parser.add_argument("--saida", help="arquivo onde a conversa é gravada (padrão: pasta temporária)")
     args = parser.parse_args()
 
+    caminho = args.saida or Path(tempfile.gettempdir()) / (
+        f"conversa-{args.usuario}-{datetime.now():%Y%m%d-%H%M%S}.txt"
+    )
+    mostrar = Registro(caminho)
+    print(f"Conversa gravada em: {caminho}")
+    mostrar(f"Conversando como '{args.usuario}'. Digite 'sair' para encerrar.\n")
+
     historico = []
-    print(f"Conversando como '{args.usuario}'. Digite 'sair' para encerrar.\n")
     while True:
         try:
             texto = input("Você: ").strip()
@@ -70,10 +100,12 @@ def main():
             break
         if not texto:
             continue
-        novas = turno(args.url, args.usuario, texto, historico)
+        mostrar.gravar(f"Você: {texto}\n")
+        novas = turno(args.url, args.usuario, texto, historico, mostrar)
         if novas:  # só grava no histórico se o turno terminou bem
             historico.extend(novas)
-        print()
+        mostrar()
+    print(f"\nConversa salva em: {caminho}")
 
 
 if __name__ == "__main__":
