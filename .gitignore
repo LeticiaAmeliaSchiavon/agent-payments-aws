@@ -11,3 +11,5 @@ __pycache__/
 .amplify/
 .aws/
 msg.json
+agent/build/
+.pytest_cache/
