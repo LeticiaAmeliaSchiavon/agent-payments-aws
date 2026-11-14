@@ -1,0 +1,17 @@
+[project]
+name = "agent"
+version = "0.1.0"
+description = "Agente de compras (Strands) executado no Bedrock AgentCore Runtime"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "bedrock-agentcore",
+    "strands-agents",
+    "boto3",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
