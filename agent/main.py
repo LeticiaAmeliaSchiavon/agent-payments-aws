@@ -54,9 +54,18 @@ async def invoke(payload):
     try:
         agente = criar_agente(usuario_id, historico)
         quantas_ja_existiam = len(agente.messages)
+        enviou_texto = False
+        novo_ciclo = False
         async for evento in agente.stream_async(prompt):
+            if evento.get("start_event_loop") and enviou_texto:
+                novo_ciclo = True  # o agente voltou a falar depois de usar uma ferramenta
             if "data" in evento:  # pedaço de texto da resposta
-                yield {"evento": "texto", "texto": evento["data"]}
+                texto = evento["data"]
+                if novo_ciclo:
+                    texto = "\n\n" + texto  # sem isso o texto de antes e o de depois da ferramenta ficam colados
+                    novo_ciclo = False
+                enviou_texto = True
+                yield {"evento": "texto", "texto": texto}
     except Exception:
         # Detalhe só no log (CloudWatch). Nada de stack trace para o usuário.
         logger.exception("Falha ao processar a mensagem")
