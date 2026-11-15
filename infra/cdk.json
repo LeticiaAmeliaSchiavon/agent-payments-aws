@@ -1,5 +1,6 @@
 {
   "app": "npx tsc && npx tsx bin/infra.ts",
+  "build": "node scripts/build-agent.mjs",
   "watch": {
     "include": [
       "**"
