@@ -61,11 +61,22 @@ test('o agente invoca exatamente as 3 Lambdas das tools, e mais nenhuma', () => 
   expect(funcoes.size).toBe(3);
 });
 
-test('o modelo so pode ser usado pelo perfil de inferencia us. do Haiku 4.5', () => {
-  const modelo = statementsDoAgente().find((s) => ([] as string[]).concat(s.Action).includes('bedrock:InvokeModel'))!;
-  expect(modelo.Action).toEqual(['bedrock:InvokeModel', 'bedrock:InvokeModelWithResponseStream']);
-  expect(JSON.stringify(modelo.Resource)).toContain('claude-haiku-4-5');
-  expect(modelo.Condition.StringEquals['bedrock:InferenceProfileArn']).toBeDefined();
+test('modelo: o perfil de inferencia e liberado SEM condicao e o modelo base so via esse perfil', () => {
+  const statements = statementsDoAgente().filter((s) => ([] as string[]).concat(s.Action).includes('bedrock:InvokeModel'));
+  expect(statements).toHaveLength(2);
+  for (const s of statements) {
+    expect(s.Action).toEqual(['bedrock:InvokeModel', 'bedrock:InvokeModelWithResponseStream']);
+  }
+
+  // A chave bedrock:InferenceProfileArn só existe quando o alvo é o modelo base. Se o statement do
+  // perfil tivesse essa condição, a AWS negaria o acesso (erro real encontrado no primeiro deploy).
+  const doPerfil = statements.find((s) => JSON.stringify(s.Resource).includes('inference-profile'))!;
+  expect(doPerfil.Condition).toBeUndefined();
+  expect(([] as any[]).concat(doPerfil.Resource)).toHaveLength(1);
+
+  const doModelo = statements.find((s) => JSON.stringify(s.Resource).includes('foundation-model'))!;
+  expect(JSON.stringify(doModelo.Resource)).toContain('claude-haiku-4-5');
+  expect(doModelo.Condition.StringEquals['bedrock:InferenceProfileArn']).toBeDefined();
 });
 
 test('IAM do agente: nenhum Action "*" e so 2 exceções de Resource "*", ambas exigidas pela AWS', () => {
