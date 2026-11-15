@@ -52,17 +52,22 @@ export class Agent extends Construct {
     // CloudWatch (esta última limitada ao namespace bedrock-agentcore). Veja test/agent.test.ts.
     // Abaixo vem só o que é específico do nosso agente: o modelo e as 3 Lambdas.
 
-    // Modelo: só o Haiku 4.5, e só quando chamado por este perfil de inferência.
+    // Modelo: só o Haiku 4.5, e o modelo base só pode ser usado POR MEIO deste perfil de inferência.
+    // São dois statements de propósito (padrão documentado da AWS): a condição
+    // bedrock:InferenceProfileArn só existe quando o alvo é o modelo base. Se ela valesse também para
+    // o perfil, a AWS negaria o acesso (foi o erro do primeiro deploy: AccessDenied no ConverseStream).
     const perfil = `arn:${stack.partition}:bedrock:${stack.region}:${stack.account}:inference-profile/${MODELO_PERFIL}`;
+    const acoesDoModelo = ['bedrock:InvokeModel', 'bedrock:InvokeModelWithResponseStream'];
     this.role.addToPolicy(new iam.PolicyStatement({
-      sid: 'InvokeModelViaInferenceProfile',
-      actions: ['bedrock:InvokeModel', 'bedrock:InvokeModelWithResponseStream'],
-      resources: [
-        perfil,
-        // O perfil "us." pode rotear para outra região dos EUA, por isso a região é curinga aqui.
-        // A condição abaixo impede o uso do modelo fora deste perfil.
-        `arn:${stack.partition}:bedrock:*::foundation-model/${MODELO_BASE}`,
-      ],
+      sid: 'InvokeInferenceProfile',
+      actions: acoesDoModelo,
+      resources: [perfil],
+    }));
+    this.role.addToPolicy(new iam.PolicyStatement({
+      sid: 'InvokeBaseModelOnlyViaProfile',
+      actions: acoesDoModelo,
+      // O perfil "us." pode rotear para outra região dos EUA, por isso a região é curinga aqui.
+      resources: [`arn:${stack.partition}:bedrock:*::foundation-model/${MODELO_BASE}`],
       conditions: { StringEquals: { 'bedrock:InferenceProfileArn': perfil } },
     }));
 
