@@ -1,9 +1,8 @@
 import * as cdk from 'aws-cdk-lib/core';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import { AgentPaymentsStack } from '../lib/agent-payments-stack';
+import { stackDeTeste } from './helpers';
 
-const app = new cdk.App();
-const stack = new AgentPaymentsStack(app, 'ToolsTestStack');
+const stack = stackDeTeste('ToolsTestStack');
 const template = Template.fromStack(stack);
 
 test('cria as 3 funcoes Lambda em Node 22', () => {
@@ -32,7 +31,8 @@ test('nenhuma role usa politica gerenciada (nada de AWSLambdaBasicExecutionRole 
 
 test('IAM: nenhuma permissao com Action "*" ou Resource "*"', () => {
   const politicas = template.findResources('AWS::IAM::Policy');
-  for (const p of Object.values(politicas)) {
+  // a role do agente tem teste proprio em agent.test.ts (com as exceções documentadas)
+  for (const [nome, p] of Object.entries(politicas).filter(([n]) => !n.includes('AgentExecutionRole'))) {
     const statements = (p as any).Properties.PolicyDocument.Statement;
     for (const s of statements) {
       const acoes = [].concat(s.Action);
