@@ -1,0 +1,184 @@
+/* ---------- Dot indicator ---------- */
+
+.dot {
+  display: inline-block;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 4px rgba(0, 179, 159, 0.25);
+  flex-shrink: 0;
+}
+
+.dotSm { width: 10px; height: 10px; }
+.dotXs { width: 9px; height: 9px; }
+
+/* ---------- Marca "pagamentos.ai" ---------- */
+
+.brandLockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.brandLockupLg { font-size: 22px; color: #fff; }
+.brandLockupSm { font-size: 17px; color: #fff; }
+
+/* ---------- Botões ---------- */
+
+.btn {
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+
+.btn:active { transform: scale(0.97); }
+.btn:disabled { cursor: not-allowed; }
+
+.btnPrimary {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: #fff;
+  font-size: 14.5px;
+}
+.btnPrimary:hover { background: var(--teal-deep); }
+
+.btnGhost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12.5px;
+}
+.btnGhost:hover { background: rgba(255, 255, 255, 0.1); }
+
+.btnIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  flex-shrink: 0;
+}
+.btnIcon:hover { background: var(--teal-deep); }
+.btnIcon:disabled { background: var(--line); }
+
+/* ---------- Campos de texto ---------- */
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  font-size: 15px;
+  color: var(--text);
+  transition: border-color 0.15s ease;
+}
+.input::placeholder { color: var(--text-faint); }
+.input:focus { border-color: var(--teal); }
+
+.inputPill {
+  border-radius: 999px;
+  padding: 13px 16px;
+  font-size: 14.5px;
+}
+
+/* ---------- Badge ---------- */
+
+.badge {
+  font-family: var(--font-mono);
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+}
+
+.badgeDark {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #cfe9e6;
+}
+
+/* ---------- Avatar ---------- */
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.avatarUser { background: var(--ink); color: #fff; }
+.avatarAgent { background: var(--teal-mist); color: var(--teal-deep); }
+
+/* ---------- Balão de mensagem ---------- */
+
+.bubble {
+  max-width: 78%;
+  padding: 11px 14px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.bubbleUser {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 16px 16px 3px 16px;
+}
+
+.bubbleAgent {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 16px 16px 16px 3px;
+}
+
+/* ---------- Painel com sombra ---------- */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---------- Utilitários de texto ---------- */
+
+.textMono { font-family: var(--font-mono); }
+.textSoft { color: var(--text-soft); }
+.textFaint { color: var(--text-faint); }
+
+/* ---------- Bolinha de "digitando" (chat) ---------- */
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.dotBounce {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotBounce { animation: none; }
+}

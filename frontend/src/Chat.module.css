@@ -1,0 +1,119 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+
+.header {
+  background: var(--ink);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+}
+
+.wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 28px 16px 20px;
+}
+
+.panelWrap {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollArea {
+  flex: 1;
+  padding: 22px;
+  min-height: 420px;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.emptyState {
+  margin: auto;
+  text-align: center;
+  color: var(--text-faint);
+  max-width: 280px;
+}
+
+.emptyIcon {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+
+.emptyText {
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.msgRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.msgRowUser {
+  flex-direction: row-reverse;
+}
+
+.typingRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.typingDots {
+  display: inline-flex;
+  gap: 4px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px 16px 16px 3px;
+}
+
+.typingDots > span:nth-child(2) { animation-delay: 0.15s; }
+.typingDots > span:nth-child(3) { animation-delay: 0.3s; }
+
+.composer {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.bubbleErro {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--coral-mist);
+  color: #b8331f;
+  font-size: 13px;
+}
+
+.aviso {
+  background: var(--amber-mist);
+  color: #7a5200;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
