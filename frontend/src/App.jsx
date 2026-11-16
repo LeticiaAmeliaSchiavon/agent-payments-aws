@@ -1,10 +1,7 @@
-import { Authenticator, translations, useAuthenticator } from '@aws-amplify/ui-react';
-import { I18n } from 'aws-amplify/utils';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
+import './i18n.js';
 import Chat from './Chat.jsx';
 import TelaDeLogin from './TelaDeLogin.jsx';
-
-I18n.putVocabularies(translations);
-I18n.setLanguage('pt');
 
 function Conteudo() {
   const { authStatus, user, signOut } = useAuthenticator((contexto) => [contexto.authStatus, contexto.user]);

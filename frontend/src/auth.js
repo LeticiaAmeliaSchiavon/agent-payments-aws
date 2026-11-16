@@ -4,7 +4,14 @@ import { config } from './config.js';
 
 export function configurarAmplify() {
   Amplify.configure({
-    Auth: { Cognito: { userPoolId: config.userPoolId, userPoolClientId: config.userPoolClientId } },
+    Auth: {
+      Cognito: {
+        userPoolId: config.userPoolId,
+        userPoolClientId: config.userPoolClientId,
+        // O user pool usa o e-mail como login. Sem isto, a tela mostra "Nome do usuário".
+        loginWith: { email: true },
+      },
+    },
   });
 }
 
