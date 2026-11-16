@@ -13,3 +13,5 @@ __pycache__/
 msg.json
 agent/build/
 .pytest_cache/
+dist/
+coverage/
