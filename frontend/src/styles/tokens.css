@@ -1,0 +1,69 @@
+:root {
+  --ink: #0b1220;
+  --ink-soft: #16213a;
+  --ink-line: #26314d;
+  --paper: #f3f5f9;
+  --surface: #ffffff;
+  --line: #e3e7ef;
+  --text: #12172b;
+  --text-soft: #5b6478;
+  --text-faint: #8992a8;
+  --teal: #00b39f;
+  --teal-deep: #018a7a;
+  --teal-mist: #e3f7f4;
+  --coral: #ff6b57;
+  --coral-mist: #ffe9e5;
+  --amber: #ffb020;
+  --amber-mist: #fff4e0;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-card: 0 20px 45px -20px rgba(11, 18, 32, 0.35);
+  --shadow-soft: 0 8px 24px -12px rgba(11, 18, 32, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+/* ---------- Authenticator do Amplify: cores e fontes do nosso visual ---------- */
+[data-amplify-authenticator] {
+  --amplify-fonts-default-variable: var(--font-body);
+  --amplify-fonts-default-static: var(--font-body);
+  --amplify-components-button-primary-background-color: var(--ink);
+  --amplify-components-button-primary-hover-background-color: var(--teal-deep);
+  --amplify-components-button-primary-focus-background-color: var(--teal-deep);
+  --amplify-components-button-primary-active-background-color: var(--teal-deep);
+  --amplify-components-button-link-color: var(--teal-deep);
+  --amplify-components-tabs-item-active-color: var(--teal-deep);
+  --amplify-components-tabs-item-active-border-color: var(--teal);
+  --amplify-components-fieldcontrol-focus-border-color: var(--teal);
+  --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px var(--teal-mist);
+}

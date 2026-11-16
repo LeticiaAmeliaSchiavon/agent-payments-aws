@@ -1,0 +1,151 @@
+.shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .brandPanel { min-height: 220px; }
+}
+
+.brandPanel {
+  background: var(--ink);
+  color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 56px;
+  overflow: hidden;
+}
+
+.brandPanel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 28px;
+  background-image: radial-gradient(circle at center, var(--paper) 6px, transparent 6.5px);
+  background-size: 28px 28px;
+  background-position: right -14px top 6px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+  max-width: 420px;
+}
+
+.subtitle {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #aab3c8;
+  max-width: 360px;
+  margin: 0;
+}
+
+.footNote {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #6c7897;
+  letter-spacing: 0.02em;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.footNote::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  display: inline-block;
+}
+
+.formSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.card {
+  width: 100%;
+  max-width: 360px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+
+.cardSub {
+  color: var(--text-soft);
+  font-size: 14px;
+  margin: 0 0 28px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.errorBanner {
+  background: var(--coral-mist);
+  color: #b8331f;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  margin-top: 12px;
+}
+
+.hintBox {
+  margin-top: 28px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--line);
+  background: var(--paper);
+}
+
+.hintLabel {
+  margin: 0 0 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  font-weight: 700;
+}
+
+.hintCode {
+  font-family: var(--font-mono);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 12.5px;
+}
+
+.hintRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--text-soft);
+  padding: 3px 0;
+}
