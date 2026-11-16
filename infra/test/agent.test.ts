@@ -98,7 +98,3 @@ test('nao ha Sid repetido na politica do agente (o CloudFormation recusa)', () =
   const sids = statementsDoAgente().map((s) => s.Sid).filter(Boolean);
   expect(new Set(sids).size).toBe(sids.length);
 });
-
-test('a Lambda do chat ainda nao existe: nada alem das 3 tools e do runtime foi criado por engano', () => {
-  template.resourceCountIs('AWS::Lambda::Function', 3);
-});

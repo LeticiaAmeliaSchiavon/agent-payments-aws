@@ -5,8 +5,8 @@ import { stackDeTeste } from './helpers';
 const stack = stackDeTeste('ToolsTestStack');
 const template = Template.fromStack(stack);
 
-test('cria as 3 funcoes Lambda em Node 22', () => {
-  template.resourceCountIs('AWS::Lambda::Function', 3);
+test('cria as 5 funcoes Lambda (3 tools + 2 da API) em Node 22', () => {
+  template.resourceCountIs('AWS::Lambda::Function', 5);
   template.allResourcesProperties('AWS::Lambda::Function', { Runtime: 'nodejs22.x' });
 });
 
@@ -17,7 +17,7 @@ test('cada funcao tem o handler esperado', () => {
 });
 
 test('grupos de logs sao removidos no destroy', () => {
-  template.resourceCountIs('AWS::Logs::LogGroup', 3);
+  template.resourceCountIs('AWS::Logs::LogGroup', 5);
   const grupos = template.findResources('AWS::Logs::LogGroup');
   for (const g of Object.values(grupos)) expect(g.DeletionPolicy).toBe('Delete');
 });
