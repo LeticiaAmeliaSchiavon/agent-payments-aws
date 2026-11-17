@@ -2,8 +2,6 @@
 
 Chatbot com login em que o usuário conversa com um agente de IA e realiza compras simuladas (catálogo, intenção de compra e pagamento por cartão ou Pix, com limite por usuário). O agente roda na AWS, usa um modelo do Amazon Bedrock e executa três ferramentas em AWS Lambda, com todo o estado no DynamoDB.
 
-> **Como ficou a entrega:** o **backend e a autenticação estão na AWS** (us-east-1), e o **frontend roda localmente**. Isso foi combinado com os instrutores: o deploy do frontend (Amplify/CloudFront) foi dispensado por um problema de permissão da conta. As regras de negócio, o login e a proteção das APIs continuam todos na nuvem.
-
 ## Sumário
 
 1. [Como rodar o frontend (passo a passo para a correção)](#1-como-rodar-o-frontend-passo-a-passo-para-a-correção)
