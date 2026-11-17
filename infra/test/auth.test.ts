@@ -21,6 +21,21 @@ test('o e-mail de convite traz usuario e senha temporaria', () => {
   });
 });
 
+test('a senha temporaria do convite vale 30 dias (o padrao de 7 vence antes da correcao)', () => {
+  template.hasResourceProperties('AWS::Cognito::UserPool', {
+    Policies: { PasswordPolicy: Match.objectLike({ TemporaryPasswordValidityDays: 30 }) },
+  });
+});
+
+test('o convite diz onde estao as instrucoes para abrir o app', () => {
+  template.hasResourceProperties('AWS::Cognito::UserPool', {
+    AdminCreateUserConfig: {
+      AllowAdminCreateUserOnly: true,
+      InviteMessageTemplate: Match.objectLike({ EmailMessage: Match.stringLikeRegexp('github\\.com/.+#readme') }),
+    },
+  });
+});
+
 test('o login e por e-mail e o user pool e removido no destroy', () => {
   template.hasResourceProperties('AWS::Cognito::UserPool', { UsernameAttributes: ['email'] });
   const [pool] = Object.values(template.findResources('AWS::Cognito::UserPool'));

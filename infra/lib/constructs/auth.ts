@@ -2,6 +2,9 @@ import * as cdk from 'aws-cdk-lib/core';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { Construct } from 'constructs';
 
+/** Onde o convidado encontra o passo a passo para abrir o app. */
+const INSTRUCOES_URL = 'https://github.com/LeticiaAmeliaSchiavon/agent-payments-aws#readme';
+
 /** Login: Cognito com cadastro SOMENTE por convite do administrador. */
 export class Auth extends Construct {
   public readonly userPool: cognito.UserPool;
@@ -23,9 +26,13 @@ export class Auth extends Construct {
           'Olá! Você foi convidado(a) para usar o Agente de Pagamentos.<br/><br/>' +
           'Usuário: <b>{username}</b><br/>' +
           'Senha temporária: <b>{####}</b><br/><br/>' +
-          'No primeiro acesso você vai precisar criar uma nova senha.',
+          'No primeiro acesso você vai precisar criar uma nova senha.<br/><br/>' +
+          `Como abrir o app (ele roda na sua máquina): ${INSTRUCOES_URL}`,
       },
       passwordPolicy: {
+        // O padrão do Cognito é 7 dias. O app fica no ar aguardando a correção, então a senha temporária
+        // do convite precisa durar mais que isso.
+        tempPasswordValidity: cdk.Duration.days(30),
         minLength: 8,
         requireLowercase: true,
         requireUppercase: true,
