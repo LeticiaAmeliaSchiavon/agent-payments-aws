@@ -340,25 +340,70 @@ Os testes de infraestrutura verificam a **política** gerada, mas não como a AW
 
 ## 8. Evidências
 
-### Login, sem opção de cadastro
+Tudo abaixo foi feito contra o ambiente implantado na AWS: a tela roda localmente, e o backend, o Cognito e o agente estão na nuvem.
+
+### Mapa: requisito do enunciado → evidência
+
+| Requisito | Onde ver |
+|---|---|
+| Login com Cognito | imagens 1 e 2 |
+| Cadastro desabilitado (só por convite) | imagem 1 (a tela não oferece cadastro) e o `SignUp` recusado, mais abaixo |
+| Chamada à API sem token rejeitada com `401` | bloco "401" mais abaixo |
+| Compra bem-sucedida com **Pix** | imagens 6 e 7 |
+| Tentativa bloqueada por **limite excedido** | imagem 9 |
+| Compra bem-sucedida com **cartão** | imagens 11 e 12 |
+| `intencao_id` inválido recusado | imagem 12 e os testes diretos das Lambdas, mais abaixo |
+| Resposta em streaming | bloco "streaming", mais abaixo |
+
+### Passo a passo na tela
+
+**1. Login, sem opção de cadastro**
 
 ![Tela de login](docs/evidencias/01-login-sem-cadastro.png)
 
-### Chat: catálogo e registro de intenção
+**2. Primeiro acesso: o app exige uma nova senha** (a temporária veio no e-mail de convite)
 
-![Chat com catálogo](docs/evidencias/02-chat-catalogo-e-intencao.png)
+![Mudar de senha](docs/evidencias/02-mudar-de-senha.png)
 
-### Compra aprovada no cartão e `intencao_id` inventado recusado
+**3. Chat após o login**
 
-![Compra no cartão e intenção inválida](docs/evidencias/03-compra-cartao-e-intencao-invalida.png)
+![Chat inicial](docs/evidencias/03-chat-inicial.png)
 
-### Compra aprovada no Pix
+**4. O agente lista o catálogo** (`listar_catalogo`)
 
-![Compra no Pix](docs/evidencias/04-compra-pix.png)
+![Catálogo de produtos](docs/evidencias/04-catalogo-de-produtos.png)
 
-### Tentativa bloqueada por limite excedido
+**5. Escolha do produto e registro da intenção** (`registrar_intencao`)
 
-![Limite excedido](docs/evidencias/05-limite-excedido.png)
+![Catálogo e intenção](docs/evidencias/05-chat-catalogo-e-intencao.png)
+
+**6. O agente pergunta o método de pagamento**
+
+![Escolha de pagamento](docs/evidencias/06-escolha-de-pagamento.png)
+
+**7. Pagamento confirmado** (`realizar_compra`)
+
+![Pagamento confirmado](docs/evidencias/07-pagamento-confirmado.png)
+
+**8. Nova compra na mesma conversa**
+
+![Comprando mais produtos](docs/evidencias/08-comprando-mais-produtos.png)
+
+**9. Compra acima do limite: o backend recusa e o agente explica**
+
+![Limite excedido](docs/evidencias/09-limite-excedido.png)
+
+**10. O usuário escolhe outro produto**
+
+![Escolhendo outro produto](docs/evidencias/10-escolhendo-outro-produto.png)
+
+**11. Compra dentro do limite aprovada**
+
+![Compra aprovada dentro do limite](docs/evidencias/11-limite-aprovado.png)
+
+**12. Compra aprovada no cartão e `intencao_id` inventado recusado**
+
+![Compra no cartão e intenção inválida](docs/evidencias/12-compra-cartao-e-intencao-invalida.png)
 
 ### Chamada à API sem token é rejeitada com 401 pelo API Gateway
 
